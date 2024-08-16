@@ -3,7 +3,10 @@ package com.example.logicgo.service;
 import android.app.Application;
 import android.content.SharedPreferences;
 
+import androidx.room.Room;
+
 import com.example.logicgo.R;
+import com.example.logicgo.database.AppDatabase;
 import com.google.gson.Gson;
 
 public class App extends Application {
@@ -14,12 +17,18 @@ public class App extends Application {
 
     public static Gson gson = new Gson();
 
+    public static AppDatabase db;
+
     @Override
     public void onCreate() {
         super.onCreate();
 
         pref = getSharedPreferences(getString(R.string.app_name), MODE_PRIVATE);
         editor = pref.edit();
+
+        db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, getString(R.string.app_name))
+//                .allowMainThreadQueries()
+                .build();
     }
 
 
